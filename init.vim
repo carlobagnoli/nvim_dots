@@ -1,37 +1,28 @@
 call plug#begin('~/.vim/plugged')
 
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
 Plug 'drewtempelmeyer/palenight.vim'
-
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
+Plug 'francoiscabrol/ranger.vim'
 Plug 'hrsh7th/nvim-compe'
 Plug 'hrsh7th/vim-vsnip'
-
-Plug 'justinmk/vim-sneak'
-
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
-Plug 'francoiscabrol/ranger.vim'
-
 Plug 'jiangmiao/auto-pairs'
-
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-
-Plug 'mxw/vim-jsx'
-Plug 'pangloss/vim-javascript'
-
-Plug 'voldikss/vim-floaterm'
-
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/gv.vim'
+Plug 'justinmk/vim-sneak'
 Plug 'mhinz/vim-signify'
+Plug 'mxw/vim-jsx'
+Plug 'neovim/nvim-lspconfig'
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'pangloss/vim-javascript'
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-Plug 'junegunn/gv.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-test/vim-test'
+Plug 'voldikss/vim-floaterm'
 
 call plug#end()
 
@@ -43,25 +34,45 @@ let g:sneak#use_ic_scs = 1
 let g:sneak#s_next = 1
 
 set nu
+noh
 
 set background=dark
 colorscheme palenight
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme = "badwolf"
 
+let test#python#runner = 'pytest'
+let test#strategy = 'dispatch'
 
 if (has("termguicolors"))
   set termguicolors
 endif
 
+" Buffer bindings
 map <F2> :FZF<CR>
 map <F5> :bp<CR>
 map <F6> :bn<CR>
 map <F4> :bdelete<CR>
 
-nnoremap <leader>gt :FloatermNew lazygit<CR>
-nnoremap <leader>t :FloatermToggle<CR>
+" Cool bindings
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
+nnoremap <leader>s :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
+nnoremap <silent> Q <nop>
 
+" Floaterm bindings
+nnoremap <leader>gt :FloatermNew lazygit<CR>
+nnoremap <leader>tt :FloatermToggle<CR>
+
+" vim-test bindings
+nnoremap <leader>ts :TestSuite<CR>
+nnoremap <leader>tf :TestFile<CR>
+nnoremap <leader>tn :TestNearest<CR>
+nnoremap <leader>tl :TestLast<CR>
+nnoremap <leader>tv :TestVisit<CR>
+
+" Completion engine bindings
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
