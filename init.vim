@@ -30,9 +30,11 @@ nnoremap <SPACE> <Nop>
 let mapleader=" "
 
 let g:sneak#label = 1
-let g:sneak#use_ic_scs = 1
 let g:sneak#s_next = 1
+let g:sneak#use_ic_scs = 1
 
+" One of the most important commands here!
+set lazyredraw
 set nu
 noh
 
@@ -50,37 +52,37 @@ endif
 
 " Buffer bindings
 map <F2> :FZF<CR>
+map <F4> :bdelete<CR>
 map <F5> :bp<CR>
 map <F6> :bn<CR>
-map <F4> :bdelete<CR>
 
 " Cool bindings
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <leader>s :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
 nnoremap <silent> Q <nop>
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
 " Floaterm bindings
 nnoremap <leader>gt :FloatermNew lazygit<CR>
 nnoremap <leader>tt :FloatermToggle<CR>
 
 " vim-test bindings
-nnoremap <leader>ts :TestSuite<CR>
 nnoremap <leader>tf :TestFile<CR>
-nnoremap <leader>tn :TestNearest<CR>
 nnoremap <leader>tl :TestLast<CR>
+nnoremap <leader>tn :TestNearest<CR>
+nnoremap <leader>ts :TestSuite<CR>
 nnoremap <leader>tv :TestVisit<CR>
 
 " Completion engine bindings
-nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> <C-n> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> <C-p> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
 
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -89,6 +91,7 @@ set completeopt=menuone,noinsert,noselect
 
 set shortmess+=c
 
+" Completion engines
 lua << EOF
 	require'compe-config'
 	require'lspconfig'.rust_analyzer.setup{on_attach=require'completion'.on_attach}
