@@ -2,6 +2,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'francoiscabrol/ranger.vim'
+Plug 'gruvbox-community/gruvbox'
 Plug 'hrsh7th/nvim-compe'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'jiangmiao/auto-pairs'
@@ -23,6 +24,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-test/vim-test'
 Plug 'voldikss/vim-floaterm'
+Plug 'yggdroot/indentline'
+Plug 'norcalli/nvim-colorizer.lua'
 
 call plug#end()
 
@@ -32,16 +35,22 @@ let mapleader=" "
 let g:sneak#label = 1
 let g:sneak#s_next = 1
 let g:sneak#use_ic_scs = 1
+let g:indentLine_char = '▏'
 
 " One of the most important commands here!
 set lazyredraw
 set nu
-noh
+set nohlsearch
+set hidden
+set incsearch
+set scrolloff=5
+set colorcolumn=90
 
 set background=dark
-colorscheme palenight
+colorscheme gruvbox
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme = "badwolf"
+hi Normal guibg=NONE ctermbg=NONE
 
 let test#python#runner = 'pytest'
 let test#strategy = 'dispatch'
@@ -58,10 +67,30 @@ map <F6> :bn<CR>
 
 " Cool bindings
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
-nnoremap <leader>s :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
+nnoremap <leader>R :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
+nnoremap <leader>Spi vip:sor!<CR>
+nnoremap <leader>Spn vip:sor n<CR>
+nnoremap <leader>Spp vip:sor<CR>
 nnoremap <silent> Q <nop>
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+vnoremap <leader>p "_dP
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nnoremap <leader>Y gg"+yG
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+
+" Gets rid of trailing whitespace automatically
+augroup CARLO
+	autocmd!
+	autocmd BufWritePre * %s/\s\+$//e
+augroup END
+
+augroup vimrc
+	autocmd!
+	autocmd BufRead *.tsx setlocal shiftwidth=2 tabstop=2 list expandtab
+augroup END
 
 " Floaterm bindings
 nnoremap <leader>gt :FloatermNew lazygit<CR>
@@ -99,4 +128,17 @@ lua << EOF
 	require'lspconfig'.tsserver.setup{on_attach=require'completion'.on_attach}
 	require'lspconfig'.cssls.setup{on_attach=require'completion'.on_attach}
 	require'lspconfig'.ccls.setup{on_attach=require'completion'.on_attach}
+
+	require'colorizer'.setup(
+	{'*';},
+	{
+		RGB      = true;         -- #RGB hex codes
+		RRGGBB   = true;         -- #RRGGBB hex codes
+		names    = true;         -- "Name" codes like Blue
+		RRGGBBAA = true;         -- #RRGGBBAA hex codes
+		rgb_fn   = true;         -- CSS rgb() and rgba() functions
+		hsl_fn   = true;         -- CSS hsl() and hsla() functions
+		css      = true;         -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+		css_fn   = true;         -- Enable all CSS *functions*: rgb_fn, hsl_fn
+	})
 EOF
