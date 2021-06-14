@@ -1,5 +1,6 @@
 call plug#begin('~/.vim/plugged')
 
+Plug 'HerringtonDarkholme/yats.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'francoiscabrol/ranger.vim'
 Plug 'gruvbox-community/gruvbox'
@@ -10,13 +11,16 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/gv.vim'
 Plug 'justinmk/vim-sneak'
+Plug 'maxmellon/vim-jsx-pretty'
 Plug 'mhinz/vim-signify'
 Plug 'mxw/vim-jsx'
 Plug 'neovim/nvim-lspconfig'
+Plug 'norcalli/nvim-colorizer.lua'
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'pangloss/vim-javascript'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
@@ -24,8 +28,9 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-test/vim-test'
 Plug 'voldikss/vim-floaterm'
+Plug 'windwp/nvim-ts-autotag'
 Plug 'yggdroot/indentline'
-Plug 'norcalli/nvim-colorizer.lua'
+Plug 'yuezk/vim-js'
 
 call plug#end()
 
@@ -36,6 +41,7 @@ let g:sneak#label = 1
 let g:sneak#s_next = 1
 let g:sneak#use_ic_scs = 1
 let g:indentLine_char = '▏'
+let g:vim_jsx_pretty_colorful_config = 1
 
 " One of the most important commands here!
 set lazyredraw
@@ -43,7 +49,7 @@ set nu
 set nohlsearch
 set hidden
 set incsearch
-set scrolloff=5
+set scrolloff=8
 set colorcolumn=90
 
 set background=dark
@@ -128,6 +134,12 @@ lua << EOF
 	require'lspconfig'.tsserver.setup{on_attach=require'completion'.on_attach}
 	require'lspconfig'.cssls.setup{on_attach=require'completion'.on_attach}
 	require'lspconfig'.ccls.setup{on_attach=require'completion'.on_attach}
+
+	require'nvim-treesitter.configs'.setup {
+		autotag = {
+			enable = true,
+		}
+	}
 
 	require'colorizer'.setup(
 	{'*';},
