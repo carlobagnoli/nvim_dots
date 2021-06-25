@@ -3,6 +3,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'francoiscabrol/ranger.vim'
+Plug 'godlygeek/tabular'
 Plug 'gruvbox-community/gruvbox'
 Plug 'hrsh7th/nvim-compe'
 Plug 'hrsh7th/vim-vsnip'
@@ -48,6 +49,7 @@ set lazyredraw
 set nu
 set nohlsearch
 set hidden
+set smarttab
 set incsearch
 set scrolloff=8
 set colorcolumn=90
@@ -86,6 +88,10 @@ vnoremap <leader>y "+y
 nnoremap <leader>Y gg"+yG
 nnoremap <leader>d "_d
 vnoremap <leader>d "_d
+nnoremap <leader>a= :Tab /=<CR>
+vnoremap <leader>a= :Tab /=<CR>
+nnoremap <leader>a: :Tab /:\zs<CR>
+vnoremap <leader>a: :Tab /:\zs<CR>
 
 " Gets rid of trailing whitespace automatically
 augroup CARLO
@@ -108,6 +114,12 @@ nnoremap <leader>tl :TestLast<CR>
 nnoremap <leader>tn :TestNearest<CR>
 nnoremap <leader>ts :TestSuite<CR>
 nnoremap <leader>tv :TestVisit<CR>
+
+for key in ['<Up>', '<Down>', '<Left>', '<Right>']
+	exec 'noremap' key '<Nop>'
+	exec 'inoremap' key '<Nop>'
+	exec 'cnoremap' key '<Nop>'
+endfor
 
 " Completion engine bindings
 nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
