@@ -3,6 +3,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'francoiscabrol/ranger.vim'
+Plug 'ghifarit53/tokyonight-vim'
 Plug 'godlygeek/tabular'
 Plug 'gruvbox-community/gruvbox'
 Plug 'hrsh7th/nvim-compe'
@@ -21,6 +22,8 @@ Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'pangloss/vim-javascript'
+Plug 'sainnhe/sonokai'
+Plug 'shaunsingh/moonlight.nvim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
@@ -32,6 +35,7 @@ Plug 'voldikss/vim-floaterm'
 Plug 'windwp/nvim-ts-autotag'
 Plug 'yggdroot/indentline'
 Plug 'yuezk/vim-js'
+Plug 'leafgarland/typescript-vim'
 
 call plug#end()
 
@@ -54,18 +58,26 @@ set incsearch
 set scrolloff=8
 set colorcolumn=90
 
-set background=dark
-colorscheme gruvbox
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme = "badwolf"
-hi Normal guibg=NONE ctermbg=NONE
-
-let test#python#runner = 'pytest'
-let test#strategy = 'dispatch'
-
 if (has("termguicolors"))
   set termguicolors
 endif
+
+" let g:tokyonight_style = 'storm' " available: night, storm
+
+let g:sonokai_style = 'maia'
+
+colorscheme sonokai
+
+" set background=dark
+" let g:tokyonight_enable_italic = 1
+
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline_theme = "badwolf"
+
+" hi Normal guibg=NONE ctermbg=NONE
+
+let test#python#runner = 'pytest'
+let test#strategy = 'dispatch'
 
 " Buffer bindings
 map <F2> :FZF<CR>
@@ -118,7 +130,7 @@ nnoremap <leader>tv :TestVisit<CR>
 for key in ['<Up>', '<Down>', '<Left>', '<Right>']
 	exec 'noremap' key '<Nop>'
 	exec 'inoremap' key '<Nop>'
-	exec 'cnoremap' key '<Nop>'
+	exec 'vnoremap' key '<Nop>'
 endfor
 
 " Completion engine bindings
