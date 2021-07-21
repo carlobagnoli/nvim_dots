@@ -13,6 +13,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/gv.vim'
 Plug 'justinmk/vim-sneak'
+Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'mhinz/vim-signify'
 Plug 'mxw/vim-jsx'
@@ -35,7 +36,6 @@ Plug 'voldikss/vim-floaterm'
 Plug 'windwp/nvim-ts-autotag'
 Plug 'yggdroot/indentline'
 Plug 'yuezk/vim-js'
-Plug 'leafgarland/typescript-vim'
 
 call plug#end()
 
@@ -57,6 +57,7 @@ set smarttab
 set incsearch
 set scrolloff=8
 set colorcolumn=90
+set updatetime=250
 
 if (has("termguicolors"))
   set termguicolors
@@ -64,9 +65,9 @@ endif
 
 " let g:tokyonight_style = 'storm' " available: night, storm
 
-let g:sonokai_style = 'maia'
+" let g:sonokai_style = 'maia'
 
-colorscheme sonokai
+colorscheme moonlight
 
 " set background=dark
 " let g:tokyonight_enable_italic = 1
@@ -86,6 +87,8 @@ map <F5> :bp<CR>
 map <F6> :bn<CR>
 
 " Cool bindings
+nnoremap <C-J> :cprev<CR>
+nnoremap <C-K> :cnext<CR>
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <leader>R :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
 nnoremap <leader>Spi vip:sor!<CR>
@@ -114,6 +117,7 @@ augroup END
 augroup vimrc
 	autocmd!
 	autocmd BufRead *.tsx setlocal shiftwidth=2 tabstop=2 list expandtab
+	autocmd BufRead *.ts  setlocal shiftwidth=2 tabstop=2 list expandtab
 augroup END
 
 " Floaterm bindings
@@ -134,7 +138,7 @@ for key in ['<Up>', '<Down>', '<Left>', '<Right>']
 endfor
 
 " Completion engine bindings
-nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+" nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> <C-n> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> <C-p> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
@@ -142,6 +146,8 @@ nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
+
+autocmd CursorHold,CursorHoldI * lua vim.lsp.diagnostic.show_line_diagnostics({focusable=false})
 
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -177,4 +183,5 @@ lua << EOF
 		css      = true;         -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
 		css_fn   = true;         -- Enable all CSS *functions*: rgb_fn, hsl_fn
 	})
+
 EOF
